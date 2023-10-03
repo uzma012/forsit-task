@@ -1,0 +1,61 @@
+
+Admin Table:
+Purpose: Stores information about administrators managing the system.
+Attributes: AdminID (Primary Key), Name, Email, Phone.
+Relationships: An Admin can manage multiple Products, Categories, and Inventory Transactions.
+
+Category Table:
+Purpose: Contains categories to which products belong.
+Attributes: CategoryID (Primary Key), CategoryName.
+Relationships: Each Category can have multiple associated Products.
+
+Product Table:
+Purpose: Holds information about products available for sale.
+Attributes: ProductID (Primary Key), ProductName, Description, Price, QuantityInStock.
+Relationships: Each Product belongs to a single Category. An Admin manages multiple Products.
+
+Customer Table:
+Purpose: Stores data about customers who can place orders.
+Attributes: CustomerID (Primary Key), FirstName, LastName, Email, Phone, Address.
+Relationships: A Customer can place multiple Orders and Sales.
+
+Order Table:
+Purpose: Represents individual orders placed by customers.
+Attributes: OrderID (Primary Key), OrderDate, TotalAmount, CustomerID (Foreign Key).
+Relationships: Each Order contains multiple OrderItems and is associated with a single Customer.
+
+OrderItem Table:
+Purpose: Contains details about each item within an order.
+Attributes: OrderItemID (Primary Key), Quantity, Subtotal, ProductID (Foreign Key), OrderID (Foreign Key), SaleID (Foreign Key).
+Relationships: Each OrderItem is associated with a single Product and belongs to a single Order or Sale.
+
+InventoryTransaction Table:
+Purpose: Records transactions that affect the product inventory.
+Attributes: TransactionID (Primary Key), TransactionDate, TransactionType, QuantityChanged, ProductID (Foreign Key), AdminID (Foreign Key).
+Relationships: Each Inventory Transaction involves a single Product and is performed by a single Admin.
+
+Revenue Table:
+Purpose: Stores information related to revenue generated from orders.
+Attributes: RevenueID (Primary Key), Date, Amount, OrderID (Foreign Key).
+Relationships: Each Revenue record is associated with a single Order.
+
+Sale Table:
+Purpose: Tracks sales transactions made by customers.
+Attributes: SaleID (Primary Key), SaleDate, TotalSaleAmount, CustomerID (Foreign Key).
+Relationships: Each Sale contains multiple OrderItems and is associated with a single Customer.
+
+
+InventoryHistory table:
+Purpose:
+The InventoryHistory table serves the purpose of tracking changes in inventory levels for various products, providing a historical record of inventory transactions.
+
+Attributes:
+transaction_id (Primary Key): Unique identifier for each inventory transaction.
+transaction_date: Date and time of the inventory change.
+product_id (Foreign Key): Links to the product associated with the inventory change.
+quantity_changed: Amount by which the inventory was altered (positive for purchases, negative for sales).
+transaction_type: Indicates whether it's a purchase or a sale, offering context for the inventory change.
+
+Relationship: 
+Product (ManyToOne): Many inventory history entries are associated with one product, linking each entry to a specific product.
+ 
