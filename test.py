@@ -1,4 +1,4 @@
-
+README_CONTENT = """
 # E-commerce Inventory Management System
 
 This project is an E-commerce Inventory Management System designed to efficiently manage products, sales, revenue, and inventory. Below are the folders and components explained briefly.
@@ -89,3 +89,7 @@ To run the project, follow these steps:
 5. Use Postman or similar software to call the APIs using the provided requests in the Postman collection.
 
 Feel free to reach out if you have any questions or need further assistance!
+"""
+
+with open("README.md", "w") as readme_file:
+    readme_file.write(README_CONTENT)
