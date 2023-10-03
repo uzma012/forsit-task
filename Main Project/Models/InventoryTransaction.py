@@ -8,7 +8,7 @@ Base = declarative_base()
 
 
 class InventoryTransaction(Base):
-    __tablename__ = 'inventorytransactions'
+    __tablename__ = 'inventorytransaction'
 
     transactionid = Column(Integer, primary_key=True, autoincrement=True)
     transactiondate = Column(DateTime, default=datetime.datetime.utcnow)
@@ -17,8 +17,8 @@ class InventoryTransaction(Base):
     productid = Column(Integer, ForeignKey(Product.productid))
     adminid = Column(Integer, ForeignKey(Admin.adminid))
 
-    product = relationship(Product, backref='inventorytransactions')
-    admin = relationship(Admin, backref='inventorytransactions')
+    product = relationship(Product, backref='inventorytransaction')
+    admin = relationship(Admin, backref='inventorytransaction')
 
     def __repr__(self):
         return f"< transactiondate={self.transactiondate}, transactiontype={self.transactiontype}, quantitychanged={self.quantitychanged}, productid={self.productid}, adminid={self.adminid})>"

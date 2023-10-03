@@ -6,6 +6,6 @@ from DTOs.RevenueDTO import RevenueDTO
 
 class RevenueResponse(BaseModel):
     category_name: str
-    revenue_by_period: RevenueDTO
+    revenue_by_period: List[RevenueDTO]
     
 

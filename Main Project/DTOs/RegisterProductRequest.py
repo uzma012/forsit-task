@@ -6,3 +6,4 @@ class RegisterProductRequest(BaseModel):
     quantity_in_stock:int
     transaction_type:str
     admin_id:int
+    categoryId:int

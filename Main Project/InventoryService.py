@@ -78,8 +78,8 @@ class InventoryServices:
             return True
 
 
-    def register_new_product(self, product_name, description, price, quantity_in_stock, transaction_type, admin_id):
-        try:
+    def register_new_product(self, product_name, description, price, quantity_in_stock, transaction_type, admin_id,category_id):
+        # try:
             # Check if the product already exists based on product name
             existing_product = self.session.query(Product).filter(Product.productname == product_name).one_or_none()
 
@@ -94,40 +94,44 @@ class InventoryServices:
                     productname=product_name,
                     description=description,
                     price=price,
-                    quantityinstock=quantity_in_stock
+                    quantityinstock=quantity_in_stock,
+                    adminid=admin_id,
+                    categoryid=category_id
                 )
-                self.session.add(new_product)
+            self.session.add(new_product)
 
             # Record the inventory transaction
             inventory_transaction = InventoryTransaction(
-                transactiondate=datetime.now(),
+                transactiondate=datetime.utcnow(),
                 transactiontype=transaction_type,
                 quantitychanged=quantity_in_stock,
-                productid=existing_product.productid if existing_product else new_product.productid,
+                product=existing_product if existing_product else new_product,
                 adminid=admin_id
             )
-            self.session.add(inventory_transaction)
+            # self.session.add(inventory_transaction)
 
             # Update the inventory table
             product = existing_product if existing_product else new_product
             inventory_record = self.session.query(InventoryTransaction).filter(InventoryTransaction.productid == product.productid).one_or_none()
             if not inventory_record:
-                inventory_record = InventoryTransaction(productid=product.productid, quantity=product.quantityinstock)
+                inventory_record = inventory_transaction
                 self.session.add(inventory_record)
             else:
-                inventory_record.quantity = product.quantityinstock
+                inventory_record.quantitychanged = product.quantityinstock
 
             self.session.commit()
             self.db_manager.close_session(self.session)
 
             return True
 
-        except IntegrityError:
-            self.session.rollback()
-            self.db_manager.close_session(self.session)
-            return False
+        # except IntegrityError as i:
+        #     print(i.detail)
+        #     self.session.rollback()
+        #     self.db_manager.close_session(self.session)
+        #     return False
 
-        except Exception as e:
-            self.session.rollback()
-            self.db_manager.close_session(self.session)
-            return False
+        # except Exception as e:
+        #     # print(e.message)
+        #     self.session.rollback()
+        #     self.db_manager.close_session(self.session)
+        #     return False

@@ -50,12 +50,12 @@ async def get_sales_data(revenue_request:RevenueRequest ):
     if(revenue_request.category_id is None):
         start_date=datetime.strptime(revenue_request.start_date, date_format).date()
         end_date=datetime.strptime(revenue_request.end_date, date_format).date()
-        revenu_reponse = sales_service.compare_revenue_across_periods_and_categories(start_date, end_date)
+        revenu_reponse = sales_service.compare_revenue_across_periods_and_categories(start_date, end_date,revenue_request.period)
         return revenu_reponse
     else:
         start_date=datetime.strptime(revenue_request.start_date, date_format).date()
         end_date=datetime.strptime(revenue_request.end_date, date_format).date()
-        revenu_reponse = sales_service.compare_revenue_across_periods_and_categories(start_date, end_date,revenue_request.category_id)
+        revenu_reponse = sales_service.compare_revenue_across_periods_and_categories(start_date, end_date,revenue_request.period,revenue_request.category_id)
         return revenu_reponse
         
 
@@ -80,8 +80,18 @@ async def get_sales_data(register_new_product: RegisterProductRequest):
                                                  register_new_product.price,
                                                  register_new_product.quantity_in_stock,
                                                  register_new_product.transaction_type,
-                                                 register_new_product.admin_id)
+                                                 register_new_product.admin_id,
+                                                 register_new_product.categoryId)
     return reponse
+
+
+
+# start_date = datetime(2023, 9, 1)
+# end_date = datetime(2023, 12, 30)
+# period = 'daily'  # Choose from: daily, weekly, monthly, yearly
+# revenue = sales_service.calculate_revenue_weekly_by_category(start_date, end_date,1)
+# for date in revenue:
+#     print(date)
 
 
 # # Calculate daily revenue for a specific date
